@@ -403,7 +403,7 @@
         </a-form>
       </a-col>
     </a-row>
-    <a-row type="flex" justify="end" :gutter="16">
+    <a-row type="flex" justify="end" :gutter="16" v-if="step_curr!=4">
       <a-col :span="3">
         <a-button block ghost type="primary" @click="step_curr--">Back</a-button>
       </a-col>

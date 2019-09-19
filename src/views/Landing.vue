@@ -8,8 +8,26 @@
         <a-col
           data-aos="fade-up"
           data-aos-duration="50000"
+          :push="2"
+          :md="12"
+          :lg="0"
+          style="margin-top:20vh; margin-left:52vh"
+        >
+        <div
+            class="textShadow"
+            style="font-size: 20px; color:#fbf49d; "
+          >Ease of Doing Business Portal</div>
+          <span style="margin-top:2vh ; color:#e4e2e2 " class="textShadow">
+            Ease of Doing Business Portal of {{constant_helper.home_header.label}} is an online system that expedites the application process for business registration, in compliance with the Ease of Doing Business Act under Republic Act No. 11032.            
+          </span>
+        </a-col>
+        <a-col
+          data-aos="fade-up"
+          data-aos-duration="50000"
           :push="1"
-          :span="7"
+          :sm="0"
+          :md="0"
+          :lg="7"
           style="margin-top:20vh; margin-left:52vh"
         >
           <div
@@ -27,7 +45,7 @@
             {{constant_helper.home_header.label}} created a unified business application form to make it easier for all our constituents to put up or renew businesses. It also features a zero-contact policy for complete transparency.
           </span>
         </a-col>
-        <a-col :push="2" :span="8" style="margin-top:20vh;">
+        <a-col :push="2" :md="0" :lg="8" style="margin-top:20vh;">
           <a-card style="background: rgba(59, 79, 99, 0.62)">
             <template slot="title">
               <div style="color:#ffffff">Enter Credentials</div>
@@ -49,10 +67,10 @@
                   />
                 </a-input>
               </a-form-item>
-              <a-button size="large" block ghost>Login</a-button>
+              <a-button size="large" block ghost @click="$router.push('/app')">Login</a-button>
               <a-divider></a-divider>
               <p style="color:white">Login using facebook or google accounts</p>
-              <a-row type="flex" gutter="16">
+              <a-row type="flex" :gutter="16">
                 <a-col :span="12">
                   <a-button
                     block
@@ -83,21 +101,21 @@
       align="middle"
       style="margin-top:10vh; margin-left:5vh; margin-right:5vh"
     >
-      <a-col :span="8" data-aos="fade-up" data-aos-duration="30000">
+      <a-col :md="24" :lg="8" data-aos="fade-up" data-aos-duration="30000">
         <a-card title=" Report Emergency/Calamity">
           To protect our community, emergency management has to keep our response teams well informed about situations-in-progress. This tool efficiently gather, analyze, and associate critical information in a timely manner. In this way, we can optimize response times and help protect first responders in the field.
           <a-divider></a-divider>
           <a-button type="primary">Report</a-button>
         </a-card>
       </a-col>
-      <a-col :span="8" data-aos="fade-up" data-aos-duration="30000">
+      <a-col :md="24" :lg="8" data-aos="fade-up" data-aos-duration="30000">
         <a-card title="News/Announcements">
           <p>Stay updated with all the latest and official News and Announcements of {{constant_helper.home_header.label}}.</p>
           <a-divider></a-divider>
           <a-button type="primary" @click="$router.push('/news')">Read More</a-button>
         </a-card>
       </a-col>
-      <a-col :span="8" data-aos="fade-up" data-aos-duration="30000">
+      <a-col :md="24" :lg="8" data-aos="fade-up" data-aos-duration="30000">
         <a-card title="Permits and Certificates">
           In compliance with the Ease of Doing Business Act, online registration and application of Permits and Certificates for all the constituents of {{constant_helper.home_header.label}} is now available through this Portal. The public may apply online, but only registered members can view, track and manage ALL their application.
           <a-divider></a-divider>
@@ -184,6 +202,7 @@
 export default {
   data() {
     return {
+      loading:false,
       reveal: false
     };
   },
@@ -203,6 +222,10 @@ export default {
         "width=500,height=450"
       );
       this.signup_visible = false;
+    },
+    submit(){
+      console.log("login")
+      this.$router.push("/app")
     }
   }
 };
