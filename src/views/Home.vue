@@ -382,7 +382,7 @@ export default {
     },
     registerFacebook() {
       window.open(
-        `${VUE_APP_BASE_API_URI}/auth/facebook`,
+        `${process.env.VUE_APP_BASE_API_URI}/auth/facebook`,
         "",
         "width=500,height=450"
       );
@@ -390,7 +390,7 @@ export default {
     },
     registerGoogle() {
       window.open(
-        `${VUE_APP_BASE_API_URI}/auth/google`,
+        `${process.env.VUE_APP_BASE_API_URI}/auth/google`,
         "",
         "width=500,height=450"
       );
