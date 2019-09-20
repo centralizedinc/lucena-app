@@ -152,7 +152,7 @@ export default {
   },
   data() {
     return {
-      payment_details:{},
+      payment_details: {},
       step_pay: 0,
       show_modal: false,
       barcode_modal: false,
@@ -162,10 +162,16 @@ export default {
       ref_num: 12212 - 1231231
     };
   },
-  created(){
+  created() {
     this.payment_details = this.$store.state.payment.details;
   },
   methods: {
+    numberWithCommas(x) {
+      if (!x || isNaN(x)) return "0.00";
+      return parseFloat(x)
+        .toFixed(2)
+        .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+    },
     selectMethod(method) {
       console.log("method", method);
       this.show_modal = true;

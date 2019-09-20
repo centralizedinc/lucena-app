@@ -377,21 +377,23 @@
                   <a-card-grid style="width:50%;textAlign:left">Application Fee</a-card-grid>
                   <a-card-grid
                     style="width:50%;textAlign:'center'"
-                  >₱{{form.business_insurance.app_fee}}</a-card-grid>
+                  >₱{{numberWithCommas(form.business_insurance.app_fee)}}</a-card-grid>
                   <a-card-grid style="width:50%;textAlign:'center'">LRF(Legal Research Fee)</a-card-grid>
-                  <a-card-grid style="width:50%;textAlign:'center'">₱{{form.business_insurance.lrf}}</a-card-grid>
+                  <a-card-grid
+                    style="width:50%;textAlign:'center'"
+                  >₱{{numberWithCommas(form.business_insurance.lrf)}}</a-card-grid>
                   <a-card-grid style="width:50%;textAlign:'center'">Interest</a-card-grid>
                   <a-card-grid
                     style="width:50%;textAlign:'center'"
-                  >₱{{form.business_insurance.interest}}</a-card-grid>
+                  >₱{{numberWithCommas(form.business_insurance.interest)}}</a-card-grid>
                   <a-card-grid style="width:50%;textAlign:'center'">Surcharge</a-card-grid>
                   <a-card-grid
                     style="width:50%;textAlign:'center'"
-                  >₱{{form.business_insurance.surcharge}}</a-card-grid>
+                  >₱{{numberWithCommas(form.business_insurance.surcharge)}}</a-card-grid>
                   <a-card-grid style="width:50%;textAlign:'center'">Total</a-card-grid>
                   <a-card-grid
                     style="width:50%;textAlign:'center'"
-                  >₱{{form.business_insurance.total}}</a-card-grid>
+                  >₱{{numberWithCommas(form.business_insurance.total)}}</a-card-grid>
                 </a-card>
               </a-col>
             </a-row>
@@ -632,6 +634,12 @@ export default {
     this.form.reference_no = result;
   },
   methods: {
+    numberWithCommas(x) {
+      if (!x || isNaN(x)) return "0.00";
+      return parseFloat(x)
+        .toFixed(2)
+        .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+    },
     payment_method(data) {
       console.log("payment method: " + data);
       this.pay_type = data;
@@ -649,35 +657,35 @@ export default {
         },
         {
           provider: "AIG",
-          app_fee: 15000,
-          lrf: 150,
+          app_fee: 1700,
+          lrf: 100,
           interest: 0,
           surcharge: 0,
-          total: 15150
+          total: 1800
         },
         {
           provider: "AXA Philippines",
-          app_fee: 16000,
-          lrf: 160,
+          app_fee: 1600,
+          lrf: 200,
           interest: 0,
           surcharge: 0,
-          total: 16160
+          total: 1800
         },
         {
           provider: "Malayan",
-          app_fee: 17000,
-          lrf: 170,
+          app_fee: 1500,
+          lrf: 300,
           interest: 0,
           surcharge: 0,
-          total: 17170
+          total: 1800
         },
         {
           provider: "MAPRE Philippines",
-          app_fee: 18000,
-          lrf: 180,
+          app_fee: 1800,
+          lrf: 0,
           interest: 0,
           surcharge: 0,
-          total: 18180
+          total: 1800
         }
       ];
       // this.insurance = product[key];
