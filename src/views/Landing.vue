@@ -1,5 +1,14 @@
 <template>
   <div>
+    <div id="fb-root"></div>
+    <div
+      class="fb-customerchat"
+      attribution="setup_tool"
+      page_id="109048890468083"
+      theme_color="#0084ff"
+      logged_in_greeting="Hi! I'm Mayor Alcala, How can I help you?"
+      logged_out_greeting="Hi! I'm Mayor Alcala, How can I help you?"
+    ></div>
     <div
       :style="`background-image:url('${constant_helper.login_background}'); height:100%;background-repeat: no-repeat;
   background-size: cover`"
@@ -187,15 +196,6 @@
         />
       </a-col>
     </a-row>
-    <div id="fb-root"></div>
-    <div
-      class="fb-customerchat"
-      attribution="setup_tool"
-      page_id="109048890468083"
-      theme_color="#0084ff"
-      logged_in_greeting="Hi! I'm Mayor Alcala, How can I help you?"
-      logged_out_greeting="Hi! I'm Mayor Alcala, How can I help you?"
-    ></div>
   </div>
 </template>
 
@@ -230,15 +230,6 @@ export default {
     }
   }
 };
-
-window.fbAsyncInit = function() {
-  FB.init({
-    appId: "314648529334246",
-    xfbml: true,
-    version: "v4.0"
-  });
-};
-
 (function(d, s, id) {
   var js,
     fjs = d.getElementsByTagName(s)[0];
@@ -248,6 +239,14 @@ window.fbAsyncInit = function() {
   js.src = "https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
   fjs.parentNode.insertBefore(js, fjs);
 })(document, "script", "facebook-jssdk");
+
+window.fbAsyncInit = function() {
+  FB.init({
+    appId: "314648529334246",
+    xfbml: true,
+    version: "v4.0"
+  });
+};
 </script>
 <style>
 .textShadow {
