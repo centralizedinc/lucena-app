@@ -7,37 +7,73 @@
     </a-back-top>
     <a-layout-header class="header" :style="headerStyle">
       <a-row type="flex" justify="start" :gutter="8">
-        <a-col :span="2">
+        <a-col :md="2">
           <a-avatar
             style="cursor:pointer"
             @click="$router.push('/')"
             :src="constant_helper.home_header.logo"
             :size="50"
           ></a-avatar>
-        </a-col>
-        <a-col :span="4">
+        </a-col> 
+        <a-col :xs="0" :sm="0" :md="0" :lg="4">
           <h3
             style="color:white; margin-left: -6vh; cursor:pointer"
             @click="$router.push('/')"
           >{{constant_helper.home_header.label}}</h3>
         </a-col>
-        <a-col :span="2" :push="8">
+        <a-col :xs="0" :sm="0" :md="0" :lg="2" :push="8">
           <a-button ghost block type="link" @click="$router.push('/news')">News</a-button>
         </a-col>
-        <a-col :span="2" :push="8">
+        <a-col :xs="0" :sm="0" :md="0" :lg="2" :push="8">
           <a-button ghost block type="link" @click="report()">Emergency</a-button>
         </a-col>
 
-        <a-col :span="2" :push="8">
+        <a-col :xs="0" :sm="0" :md="0" :lg="2" :push="8">
           <a-button ghost block type="link" @click="$router.push('/taxes')">Local Taxes</a-button>
         </a-col>
-        <a-col :span="2" :push="8">
+        <a-col :xs="0" :sm="0" :md="0" :lg="2" :push="8">
           <a-button ghost block type="link" @click="$router.push('/permits')">Permits</a-button>
         </a-col>
-        <a-col :span="2" :push="8">
+        <a-col :xs="0" :sm="0" :md="0" :lg="2" :push="8">
           <a-button ghost block @click="signup_visible=true">SIGN-UP</a-button>
         </a-col>
+        <a-col :md="2" :lg="0" :push="22">
+          <a-icon type="menu" style="cursor:pointer" @click="visible_menu=true"></a-icon>
+        </a-col>
       </a-row>
+      <a-drawer
+      :placement="left"
+      :visible="visible_menu"
+      @close="visible_menu=false"
+      :closable="false"
+    >
+     <a-menu :defaultSelectedKeys="['/app']" mode="inline" >
+              <a-menu-item key="/app" @click="$router.push('/news')">
+                <a-icon type="layout" />
+                <span>News</span>
+              </a-menu-item>
+              <a-menu-item key="/app/permits" @click="report">
+                <a-icon type="file-exclamation" />
+                <span>Emergency</span>
+              </a-menu-item>
+              <a-menu-item key="/app/taxes" @click="$router.push('/taxes')">
+                <a-icon type="file-protect" />
+                <span>Local Taxes</span>
+              </a-menu-item>
+              <a-menu-item key="/app/account" @click="$router.push('/permits')">
+                <a-icon type="user-add" />
+                <span>Permits</span>
+              </a-menu-item>
+              <a-menu-item key="login" @click="login_visible=true">
+                <a-icon type="login" />
+                <span>Login</span>
+              </a-menu-item>
+              <a-menu-item key="logout" @click="signup_visible=true">
+                <a-icon type="logout" />
+                <span>Sign-up</span>
+              </a-menu-item>
+            </a-menu>
+    </a-drawer>
     </a-layout-header>
     <a-layout-content>
       <router-view></router-view>
@@ -268,6 +304,56 @@
         </a-col>
       </a-row>
     </a-modal>
+
+    <a-modal v-modal="login_visible">
+      <a-card style="background: rgba(59, 79, 99, 0.62)">
+            <template slot="title">
+              <div style="color:#ffffff">Enter Credentials</div>
+            </template>
+            <a-form>
+              <a-form-item>
+                <a-input size="large" placeholder="Email">
+                  <a-icon slot="prefix" type="mail" />
+                </a-input>
+              </a-form-item>
+              <a-form-item>
+                <a-input size="large" placeholder="Password" :type="reveal?'text':'password'">
+                  <a-icon slot="prefix" type="lock" />
+                  <a-icon
+                    slot="suffix"
+                    :type="reveal?'eye':'eye-invisible'"
+                    @click="reveal=!reveal"
+                    style="cursor:pointer"
+                  />
+                </a-input>
+              </a-form-item>
+              <a-button size="large" block ghost @click="$router.push('/app')">Login</a-button>
+              <a-divider></a-divider>
+              <p style="color:white">Login using facebook or google accounts</p>
+              <a-row type="flex" :gutter="16">
+                <a-col :span="12">
+                  <a-button
+                    block
+                    style="border: #4267B2;background-color:#4267B2; color:#FFFFFF"
+                    @click="registerFacebook"
+                  >
+                    <a-icon type="facebook"></a-icon>Facebook
+                  </a-button>
+                </a-col>
+                <a-col :span="12">
+                  <a-button
+                    block
+                    @click="registerGoogle"
+                    style="border: #DE4935;background-color:#DE4935; color:#FFFFFF"
+                  >
+                    <a-icon type="google"></a-icon>Google
+                  </a-button>
+                </a-col>
+              </a-row>
+            </a-form>
+          </a-card>
+    </a-modal>
+
   </a-layout>
 </template>
 
@@ -275,8 +361,10 @@
 export default {
   data() {
     return {
+      visible_menu:false,
       guest_visible: false,
       signup_visible: false,
+      login_visible:false,
       visible_report: false,
       visible: false,
       topLocation: 0,
@@ -294,7 +382,7 @@ export default {
     },
     registerFacebook() {
       window.open(
-        `${VUE_APP_BASE_API_URI}/auth/facebook`,
+        `${process.env.VUE_APP_BASE_API_URI}/auth/facebook`,
         "",
         "width=500,height=450"
       );
@@ -302,7 +390,7 @@ export default {
     },
     registerGoogle() {
       window.open(
-        `${VUE_APP_BASE_API_URI}/auth/google`,
+        `${process.env.VUE_APP_BASE_API_URI}/auth/google`,
         "",
         "width=500,height=450"
       );

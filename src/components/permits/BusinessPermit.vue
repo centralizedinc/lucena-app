@@ -264,10 +264,23 @@
             </template>
 
             <a-divider orientation="left">Business Activities</a-divider>
-            <a-input placeholder="Line of Business" v-model="line_business"></a-input>
-            <a-input placeholder="Capitalization" v-model="capital"></a-input>
-            <a-input placeholder="Gross Sales/Receipts" v-model="receipts"></a-input>
-            <a-button class="editable-add-btn" @click="addBusinessActivities" v-if="!editing">Add</a-button>
+            <a-input
+              style="margin-bottom: 10px"
+              placeholder="Line of Business"
+              v-model="line_business"
+            ></a-input>
+            <a-input style="margin-bottom: 10px" placeholder="Capitalization" v-model="capital"></a-input>
+            <a-input
+              style="margin-bottom: 10px"
+              placeholder="Gross Sales/Receipts"
+              v-model="receipts"
+            ></a-input>
+            <a-button
+              style="margin-bottom: 10px"
+              class="editable-add-btn"
+              @click="addBusinessActivities"
+              v-if="!editing"
+            >Add</a-button>
             <a-button class="editable-add-btn" @click="saveEdit" v-if="editing">Edit</a-button>
             <a-button class="editable-add-btn" @click="onCancel" v-if="editing">Cancel</a-button>
 
@@ -334,10 +347,10 @@
           <template v-if="step_curr==3">
             <a-row :gutter="8" style="margin-bottom:50px">
               <a-col :span="12">
-                <a-button block @click="insured(1)">AIG</a-button>
-                <a-button block @click="insured(2)">AXA Philippines</a-button>
-                <a-button block @click="insured(3)">Malayan</a-button>
-                <a-button block @click="insured(4)">MAPRE Philippines</a-button>
+                <a-button class="insuranceButtons" block @click="insured(1)">AIG</a-button>
+                <a-button class="insuranceButtons" block @click="insured(2)">AXA Philippines</a-button>
+                <a-button class="insuranceButtons" block @click="insured(3)">Malayan</a-button>
+                <a-button class="insuranceButtons" block @click="insured(4)">MAPRE Philippines</a-button>
                 <!-- <a-card title="Card Title" :style="{ marginTop: '16px' }">
                   <a-card-grid style="width:50%;textAlign:left">
                     <p>
@@ -364,21 +377,23 @@
                   <a-card-grid style="width:50%;textAlign:left">Application Fee</a-card-grid>
                   <a-card-grid
                     style="width:50%;textAlign:'center'"
-                  >₱{{form.business_insurance.app_fee}}</a-card-grid>
+                  >₱{{numberWithCommas(form.business_insurance.app_fee)}}</a-card-grid>
                   <a-card-grid style="width:50%;textAlign:'center'">LRF(Legal Research Fee)</a-card-grid>
-                  <a-card-grid style="width:50%;textAlign:'center'">₱{{form.business_insurance.lrf}}</a-card-grid>
+                  <a-card-grid
+                    style="width:50%;textAlign:'center'"
+                  >₱{{numberWithCommas(form.business_insurance.lrf)}}</a-card-grid>
                   <a-card-grid style="width:50%;textAlign:'center'">Interest</a-card-grid>
                   <a-card-grid
                     style="width:50%;textAlign:'center'"
-                  >₱{{form.business_insurance.interest}}</a-card-grid>
+                  >₱{{numberWithCommas(form.business_insurance.interest)}}</a-card-grid>
                   <a-card-grid style="width:50%;textAlign:'center'">Surcharge</a-card-grid>
                   <a-card-grid
                     style="width:50%;textAlign:'center'"
-                  >₱{{form.business_insurance.surcharge}}</a-card-grid>
+                  >₱{{numberWithCommas(form.business_insurance.surcharge)}}</a-card-grid>
                   <a-card-grid style="width:50%;textAlign:'center'">Total</a-card-grid>
                   <a-card-grid
                     style="width:50%;textAlign:'center'"
-                  >₱{{form.business_insurance.total}}</a-card-grid>
+                  >₱{{numberWithCommas(form.business_insurance.total)}}</a-card-grid>
                 </a-card>
               </a-col>
             </a-row>
@@ -390,7 +405,7 @@
         </a-form>
       </a-col>
     </a-row>
-    <a-row type="flex" justify="end" :gutter="16">
+    <a-row type="flex" justify="end" :gutter="16" v-if="step_curr!=4">
       <a-col :span="3">
         <a-button block ghost type="primary" @click="step_curr--">Back</a-button>
       </a-col>
@@ -619,6 +634,12 @@ export default {
     this.form.reference_no = result;
   },
   methods: {
+    numberWithCommas(x) {
+      if (!x || isNaN(x)) return "0.00";
+      return parseFloat(x)
+        .toFixed(2)
+        .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+    },
     payment_method(data) {
       console.log("payment method: " + data);
       this.pay_type = data;
@@ -636,35 +657,35 @@ export default {
         },
         {
           provider: "AIG",
-          app_fee: 15000,
-          lrf: 150,
+          app_fee: 1700,
+          lrf: 100,
           interest: 0,
           surcharge: 0,
-          total: 15150
+          total: 1800
         },
         {
           provider: "AXA Philippines",
-          app_fee: 16000,
-          lrf: 160,
+          app_fee: 1600,
+          lrf: 200,
           interest: 0,
           surcharge: 0,
-          total: 16160
+          total: 1800
         },
         {
           provider: "Malayan",
-          app_fee: 17000,
-          lrf: 170,
+          app_fee: 1500,
+          lrf: 300,
           interest: 0,
           surcharge: 0,
-          total: 17170
+          total: 1800
         },
         {
           provider: "MAPRE Philippines",
-          app_fee: 18000,
-          lrf: 180,
+          app_fee: 1800,
+          lrf: 0,
           interest: 0,
           surcharge: 0,
-          total: 18180
+          total: 1800
         }
       ];
       // this.insurance = product[key];
@@ -824,4 +845,9 @@ export default {
 </script>
 
 <style>
+.insuranceButtons {
+  height: 103px;
+  margin-bottom: 20px;
+  background-color: #f7ef9b;
+}
 </style>
